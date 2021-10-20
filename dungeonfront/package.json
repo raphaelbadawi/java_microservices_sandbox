@@ -1,0 +1,23 @@
+{
+  "name": "dungeon-front",
+  "scripts": {
+    "watch": "gulp watch",
+    "build": "gulp build",
+    "build-prod": "gulp build --env production"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "browser-sync": "^2.27.5",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-environments": "^1.0.1",
+    "gulp-postcss": "^9.0.1",
+    "gulp-terser": "^2.1.0",
+    "gulp-uglifycss": "^1.1.0",
+    "gulp-watch": "^5.0.1"
+  },
+  "dependencies": {
+    "tailwindcss": "^2.2.17"
+  }
+}

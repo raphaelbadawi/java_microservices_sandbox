@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dungeon Again</title>
+    <link rel="stylesheet" th:href="@{/css/application.css}">
+</head>
+<body>
+<section class="container mx-auto p-6 font-mono">
+    <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+        <div class="w-full overflow-x-auto">
+            <table class="w-full">
+                <thead>
+                <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                    <th class="px-4 py-3">#</th>
+                    <th class="px-4 py-3">Name</th>
+                    <th class="px-4 py-3">Type</th>
+                    <th class="px-4 py-3">Operations</th>
+                </tr>
+                </thead>
+                <tbody th:each="character: ${characters}" class="bg-white">
+                <tr class="text-gray-700">
+                    <td th:text="${character.id}" class="px-4 py-3 text-ms font-semibold border"></td>
+                    <td class="px-4 py-3 border">
+                        <div class="flex items-center text-sm">
+                            <div class="relative w-8 h-8 mr-3 rounded-full md:block">
+                                <img class="object-cover w-full h-full rounded-full"
+                                     th:src="${avatars.get(character.type)}" alt="" loading="lazy"/>
+                                <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                            </div>
+                            <div>
+                                <p th:text="${character.name}" class="font-semibold text-black"></p>
+                                <p class="text-xs text-gray-600">Character</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-4 py-3 text-xs border">
+                        <span th:text="${character.type}"
+                              class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm"></span>
+                    </td>
+                    <td class="px-4 py-3 border flex gap-2">
+                        <form th:action="@{/delete/} + ${character.id}" th:method="delete" class="w-4">
+                            <button type="submit">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                </svg>
+                            </button>
+
+                        </form>
+                        <div class="w-4">
+                            <a th:href="@{/update/} + ${character.id}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" clformss="bi bi-pen" viewBox="0 0 16 16">
+                                    <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="bg-green-100 w-2/3 mx-auto p-4 rounded">
+        <form th:action="@{/post}" th:object="${character}" method="post">
+            <div class="mb-6">
+                <label class="text-sm font-medium block mb-2">Name</label>
+                <input name="name" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Poo Poo the Warrior" required>
+            </div>
+            <div class="mb-6">
+                <label class="text-sm font-medium block mb-2">Type</label>
+                <select name="type" class="w-full p-2.5">
+                    <option selected value="CAT">Cat</option>
+                    <option value="WARRIOR">Warrior</option>
+                    <option value="MAGICIAN">Magician</option>
+                </select>
+            </div>
+            <div class="flex justify-end">
+                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Add</button>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>

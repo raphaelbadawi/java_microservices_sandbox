@@ -11,11 +11,13 @@ public class Character {
     private String name;
     private CharacterType type;
 
-    public Character(int id, String name, CharacterType type) {
+    public Character(long id, String name, CharacterType type) {
         this.id = id;
         this.name = name;
         this.type = type;
     }
+
+    public Character() {}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

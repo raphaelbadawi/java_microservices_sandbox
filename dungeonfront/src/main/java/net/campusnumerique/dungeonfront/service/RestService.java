@@ -2,20 +2,23 @@ package net.campusnumerique.dungeonfront.service;
 
 import net.campusnumerique.dungeonfront.entity.Character;
 
-import org.apache.coyote.Response;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 
+@Component
 public class RestService {
     private final RestTemplate restTemplate;
+
     private final String endpoint;
 
     public RestService(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
-        this.endpoint = "http://localhost:9090/public/characters";
+        this.endpoint = "http://dungeon:9000/public/characters";
     }
 
     public Character[] getCharactersAsObject() {

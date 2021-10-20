@@ -1,0 +1,52 @@
+version: '3.8'
+services:
+  db:
+    image: mariadb
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      MARIADB_ROOT_PASSWORD: $MARIADB_ROOT_PASSWORD
+      MARIADB_DATABASE: $MARIADB_DATABASE
+    # Uncomment if you've changed the value of the spring.jpa.hibernate.ddl-auto property from create-drop to update in the dungeon service
+    # volumes:
+    #   - db:/var/lib/mysql
+  dungeon-eureka:
+    image: dungeoneureka:latest
+    restart: on-failure
+    build: dungeoneureka/
+    ports:
+      - 9100:9100
+  dungeon:
+    image: dungeon:latest
+    restart: on-failure
+    env_file: ./.env
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.url" : "jdbc:mysql://db:3306/$MARIADB_DATABASE",
+        "spring.datasource.username" : "$MARIADB_USER",
+        "spring.datasource.password" : "$MARIADB_ROOT_PASSWORD",
+        "spring.jpa.hibernate.ddl-auto" : "create-drop",
+        "eureka.client.serviceUrl.defaultZone": "http://dungeon-eureka:9100/eureka/"
+      }'
+    build: dungeon/
+    depends_on:
+      - db
+      - dungeon-eureka
+    ports:
+      - 9090:9090
+  dungeon-front:
+    image: dungeonfront:latest
+    restart: on-failure
+    environment:
+      DUNGEON_ENDPOINT: http://dungeon:9000/public/characters
+      SPRING_APPLICATION_JSON: '{
+        "eureka.client.serviceUrl.defaultZone": "http://dungeon-eureka:9100/eureka/"
+      }'
+    build: dungeonfront/
+    depends_on:
+      - dungeon-eureka
+      - dungeon
+    ports:
+      - 9000:9000
+  # volumes:
+  #   db:

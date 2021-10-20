@@ -1,7 +1,6 @@
 package net.campusnumerique.dungeonfront.web;
 
 import net.campusnumerique.dungeonfront.service.RestService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +11,6 @@ import net.campusnumerique.dungeonfront.type.CharacterType;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
